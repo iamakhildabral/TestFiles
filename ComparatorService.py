@@ -1,4 +1,4 @@
-
+import os
 
 ## decalring the legacy file directory path
 legacy_file = r"C:\Users\SG0701644\OneDrive - Sabre\Files\LegacyFiles\Sep\28-Sep\CREMCTCN_20230928.txt"
@@ -14,12 +14,15 @@ with open(comparator_file,'w',encoding='utf-8') as result:
     with open(legacy_file,'r',encoding='utf-8') as legacy_reader,open(mfol_file,'r',encoding='utf-8') as mfol_reader:
         legacy_line_buffer = legacy_reader.read()
         legacy_lines = legacy_line_buffer.split("\n")
+        legacy_file_name = os.path.basename(legacy_reader.name)
         
         mfol_line_buffer = mfol_reader.read()
         mfol_lines = mfol_line_buffer.split("\n")
+        mfol_file_name = os.path.basename(mfol_reader.name)
 
         # since having the record in the MC file is mandatory, we are using the MFOL first
-        
+        result.write("\n\n##############  FILE COMPARISON FOR   Legacy File :  "+legacy_file_name +" and MFOL File :  " + mfol_file_name +"   ###################################################"+"\n")
+                    
         for legacy_line in legacy_lines:
             
             for mfol_line in mfol_lines:
