@@ -1,6 +1,7 @@
 import os
 from typing import TextIO
 import typing
+from Record7 import Record7
 
 
 
@@ -186,6 +187,8 @@ def comparator_service(legacy_file :typing.TextIO, mfol_file:typing.TextIO, comp
                     # Find and report the differing portion
                         while(j< len(legacy_line)):
                             if legacy_line[j] != mfol_line[j]:
+                                # using Record7 for the element detection
+                                rec7 = Record7()
                                 starting_mismatch_point = j
                                 endpoint = j
                                 while j < len(legacy_line):
@@ -196,7 +199,11 @@ def comparator_service(legacy_file :typing.TextIO, mfol_file:typing.TextIO, comp
 
                                 legacy_differing_portion = legacy_line[starting_mismatch_point : endpoint + 1]
                                 mfol_differing_portion = mfol_line[starting_mismatch_point : endpoint + 1]
-                                result.write(f"Differing portion starts at column: {starting_mismatch_point + 1} ######### Legacy Value: [{legacy_differing_portion}] | MFOL Value: [{mfol_differing_portion}]\n\n")
+                                result.write(f"Differing portion starts at column: {starting_mismatch_point + 1} ######### Legacy Value: [{legacy_differing_portion}] | MFOL Value: [{mfol_differing_portion}]\n")
+                                
+                                # adding one as system starts from zero
+                                issue_in_element = rec7.get_element_at_column(starting_mismatch_point + 1)
+                                result.write(f"The Element name is : {issue_in_element}\n\n")
                             else:
                                 j+= 1
                             
